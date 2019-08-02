@@ -1,14 +1,97 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            Ionic Blank
+
+        </ion-title>
+        <ion-buttons slot="end" padding-end>
+            <ion-button (click)="resetCanvas()">
+                <ion-icon name="trash"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+<ion-content padding>
+    <div text-center padding>
+        <div id="container" style="display: inline-block;"></div>
+    </div>
+
+    <ion-segment (ionChange)="viewChanged($event)">
+        <ion-segment-button value="0" checked>
+            <ion-icon name="image"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="1">
+            <ion-icon name="videocam"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="2">
+            <ion-icon name="build"></ion-icon>
+        </ion-segment-button>
+    </ion-segment>
+
+    <ng-container [ngSwitch]="selectedView">
+        <ng-container *ngSwitchCase="0">
+            <div padding>
+                <ng-container *ngIf="!selectedTarget">
+                    <ion-slides [options]="slideOpts">
+                        <ion-slide *ngFor="let p of pictures">
+                            <ion-button (click)="add(p)" fill="clear">
+                                <img [src]="p.url"/>
+                            </ion-button>
+                        </ion-slide>
+                    </ion-slides>
+                </ng-container>
+                <ng-container *ngIf="selectedTarget">
+                    <div text-center>
+                        <ion-button (click)="zoom()">拡大</ion-button>
+                        <ion-button (click)="shrink()">縮小</ion-button>
+                        <ion-button (click)="rotateRight()">右回転</ion-button>
+                        <ion-button (click)="rotateLeft()">左回転</ion-button>
+                        <ion-button (click)="decreaseZ()">奥に移動</ion-button>
+                        <ion-button (click)="increaseZ()">手前に移動</ion-button>
+                        <ion-button (click)="remove()">削除</ion-button>
+                        <ion-button (click)="back()">戻る</ion-button>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+            <div text-center padding>
+                <ion-text>
+                    JSONで入出力する
+                </ion-text>
+            </div>
+            <div text-center>
+                <ion-button (click)="drawFromJson()">
+                    入力
+                    <ion-icon name="arrow-up"></ion-icon>
+                </ion-button>
+                <ion-button (click)="toJson()">
+                    出力
+                    <ion-icon name="arrow-down"></ion-icon>
+                </ion-button>
+            </div>
+            <ion-textarea [(ngModel)]="inputJson" autoGrow
+                          style="border: 1px solid var(--ion-color-medium); border-radius: 5px;">
+            </ion-textarea>
+            <div text-center padding>
+                <ion-text>
+                    画像を出力する
+                </ion-text>
+            </div>
+            <div text-center>
+                <ion-button (click)="toImage()">
+                    出力
+                    <ion-icon name="arrow-down"></ion-icon>
+                </ion-button>
+                <ion-button (click)="downloadImage()">
+                    ダウンロード
+                    <ion-icon name="download"></ion-icon>
+                </ion-button>
+            </div>
+            <div text-center>
+                <img *ngIf="outputImage" [src]="outputImage">
+            </div>
+        </ng-container>
+    </ng-container>
 </ion-content>
