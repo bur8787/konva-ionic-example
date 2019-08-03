@@ -25,6 +25,8 @@ export class HomePage implements OnInit {
     selectedTarget: any;
     outputImage: any;
 
+    animation: any;
+
     constructor() {
     }
 
@@ -220,6 +222,21 @@ export class HomePage implements OnInit {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    }
+
+    addAnimation() {
+        const velocity = 100;
+
+        this.animation = new Konva.Animation((frame) => {
+            const dist = velocity * (frame.timeDiff / 1000);
+            const animationTarget = clone(this.selectedTarget);
+            animationTarget.rotate(dist);
+        }, this.layer);
+        this.animation.start();
+    }
+
+    stopAnimation() {
+        this.animation.stop();
     }
 
 }

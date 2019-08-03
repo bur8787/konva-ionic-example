@@ -22,9 +22,6 @@
             <ion-icon name="image"></ion-icon>
         </ion-segment-button>
         <ion-segment-button value="1">
-            <ion-icon name="videocam"></ion-icon>
-        </ion-segment-button>
-        <ion-segment-button value="2">
             <ion-icon name="build"></ion-icon>
         </ion-segment-button>
     </ion-segment>
@@ -43,14 +40,36 @@
                 </ng-container>
                 <ng-container *ngIf="selectedTarget">
                     <div text-center>
-                        <ion-button (click)="zoom()">拡大</ion-button>
-                        <ion-button (click)="shrink()">縮小</ion-button>
-                        <ion-button (click)="rotateRight()">右回転</ion-button>
-                        <ion-button (click)="rotateLeft()">左回転</ion-button>
-                        <ion-button (click)="decreaseZ()">奥に移動</ion-button>
-                        <ion-button (click)="increaseZ()">手前に移動</ion-button>
-                        <ion-button (click)="remove()">削除</ion-button>
-                        <ion-button (click)="back()">戻る</ion-button>
+                        <ion-button fill="clear" (click)="zoom()">
+                            <fa-icon [icon]="['fa', 'search-plus']"></fa-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="shrink()">
+                            <fa-icon [icon]="['fa', 'search-minus']"></fa-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="rotateRight()">
+                            <fa-icon [icon]="['fa', 'redo']"></fa-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="rotateLeft()">
+                            <fa-icon [icon]="['fa', 'undo']"></fa-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="increaseZ()">
+                            <fa-icon [icon]="['fa', 'level-up-alt']"></fa-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="decreaseZ()">
+                            <fa-icon [icon]="['fa', 'level-down-alt']"></fa-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="addAnimation()">
+                            <ion-icon name="videocam"></ion-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="stopAnimation()">
+                            <fa-icon [icon]="['fa', 'stop-circle']"></fa-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="remove()">
+                            <ion-icon name="trash"></ion-icon>
+                        </ion-button>
+                        <ion-button fill="clear" (click)="back()">
+                            <ion-icon name="return-left"></ion-icon>
+                        </ion-button>
                     </div>
                 </ng-container>
             </div>
