@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
     selectedTarget: any;
     outputImage: any;
 
-    animation: any;
+    animations = new Array();
 
     constructor() {
     }
@@ -146,7 +146,6 @@ export class HomePage implements OnInit {
         });
     }
 
-
     zoom() {
         this.selectedTarget.height(this.selectedTarget.getHeight() + 30);
         this.selectedTarget.width(this.selectedTarget.getWidth() + 30);
@@ -225,18 +224,36 @@ export class HomePage implements OnInit {
     }
 
     addAnimation() {
+        this.selectedTarget.attrs.animation = true;
+        console.log(this.selectedTarget);
+    }
+
+    playAnimation() {
+        const images = this.stage.find('Image');
+        console.log(images);
+        const aniImages = images.filter((image) => {
+            return image.attrs.animation;
+        });
+        console.log(aniImages);
         const velocity = 100;
 
-        this.animation = new Konva.Animation((frame) => {
-            const dist = velocity * (frame.timeDiff / 1000);
-            const animationTarget = clone(this.selectedTarget);
-            animationTarget.rotate(dist);
-        }, this.layer);
-        this.animation.start();
+        aniImages.forEach((aniImage) => {
+            const newAni = new Konva.Animation((frame) => {
+                const dist = velocity * (frame.timeDiff / 1000);
+                aniImage.rotate(dist);
+            }, this.layer);
+            newAni.start();
+            this.animations.push(newAni);
+        });
+        console.log(this.animations);
     }
 
     stopAnimation() {
-        this.animation.stop();
+        this.unselectTarget();
+        this.animations.forEach((aniImage) => {
+            aniImage.stop();
+            this.animations = [];
+        });
     }
 
 }
