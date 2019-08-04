@@ -11,9 +11,6 @@
             <ion-button fill="clear" (click)="stopAnimation()">
                 <ion-icon name="pause"></ion-icon>
             </ion-button>
-            <ion-button (click)="resetCanvas()">
-                <ion-icon name="trash"></ion-icon>
-            </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -98,21 +95,25 @@
             </ion-textarea>
             <div text-center padding>
                 <ion-text>
-                    画像を出力する
+                    画像で出力する
                 </ion-text>
             </div>
             <div text-center>
-                <ion-button (click)="toImage()">
-                    出力
-                    <ion-icon name="arrow-down"></ion-icon>
-                </ion-button>
                 <ion-button (click)="downloadImage()">
                     ダウンロード
                     <ion-icon name="download"></ion-icon>
                 </ion-button>
             </div>
+            <div text-center padding>
+                <ion-text>
+                    GIFで出力する
+                </ion-text>
+            </div>
             <div text-center>
-                <img *ngIf="outputImage" [src]="outputImage">
+                <ion-button (click)="toGif()">
+                    ダウンロード
+                    <ion-icon name="download"></ion-icon>
+                </ion-button>
             </div>
         </ng-container>
     </ng-container>

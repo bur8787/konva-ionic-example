@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import 'Konva';
 
 declare const Konva: any;
+declare const GIF: any;
 
 @Component({
     selector: 'app-home',
@@ -91,33 +92,34 @@ export class HomePage implements OnInit {
 
     initPictures() {
         this.pictures = Array.of<Picture>(
-            new Picture('../assets/image/akachan_haihai_black.png'),
             new Picture('../assets/image/animal_hitsuji_black.png'),
-            new Picture('../assets/image/animal_lion_black.png'),
-            new Picture('../assets/image/animal_nyugyu_black.png'),
-            new Picture('../assets/image/animal_rat_black_black.png'),
-            new Picture('../assets/image/animal_yagi_black.png'),
-            new Picture('../assets/image/flower_hachiue1_red.png'),
-            new Picture('../assets/image/flower_hachiue2_white.png'),
-            new Picture('../assets/image/flower_hachiue3_pink.png'),
-            new Picture('../assets/image/flower_hachiue4_purple.png'),
-            new Picture('../assets/image/flower_hachiue5_blue.png'),
-            new Picture('../assets/image/flower_hachiue6_yellow.png'),
-            new Picture('../assets/image/flower_himawari_mark.png'),
-            new Picture('../assets/image/flower_tsubuwaki.png'),
-            new Picture('../assets/image/hiyoko_black.png'),
-            new Picture('../assets/image/fruit_apple.png'),
-            new Picture('../assets/image/fruit_banana.png'),
-            new Picture('../assets/image/fruit_cherry.png'),
-            new Picture('../assets/image/fruit_lemon.png'),
-            new Picture('../assets/image/fruit_orange.png'),
-            new Picture('../assets/image/fruit_peach.png'),
-            new Picture('../assets/image/fruit_pineapple.png'),
-            new Picture('../assets/image/fruit_strawberry.png'),
+            new Picture('../assets/image/akachan_haihai_black.png'),
+            // new Picture('../assets/image/animal_lion_black.png'),
+            // new Picture('../assets/image/animal_nyugyu_black.png'),
+            // new Picture('../assets/image/animal_rat_black_black.png'),
+            // new Picture('../assets/image/animal_yagi_black.png'),
+            // new Picture('../assets/image/flower_hachiue1_red.png'),
+            // new Picture('../assets/image/flower_hachiue2_white.png'),
+            // new Picture('../assets/image/flower_hachiue3_pink.png'),
+            // new Picture('../assets/image/flower_hachiue4_purple.png'),
+            // new Picture('../assets/image/flower_hachiue5_blue.png'),
+            // new Picture('../assets/image/flower_hachiue6_yellow.png'),
+            // new Picture('../assets/image/flower_himawari_mark.png'),
+            // new Picture('../assets/image/flower_tsubuwaki.png'),
+            // new Picture('../assets/image/hiyoko_black.png'),
+            // new Picture('../assets/image/fruit_apple.png'),
+            // new Picture('../assets/image/fruit_banana.png'),
+            // new Picture('../assets/image/fruit_cherry.png'),
+            // new Picture('../assets/image/fruit_lemon.png'),
+            // new Picture('../assets/image/fruit_orange.png'),
+            // new Picture('../assets/image/fruit_peach.png'),
+            // new Picture('../assets/image/fruit_pineapple.png'),
+            // new Picture('../assets/image/fruit_strawberry.png')
         );
     }
 
     add(p: Picture) {
+        console.log(this.pictures);
         this.draw(p.url);
     }
 
@@ -254,6 +256,36 @@ export class HomePage implements OnInit {
             aniImage.stop();
             this.animations = [];
         });
+    }
+
+    async toGif() {
+        const gif = new GIF({
+            workers: 2,
+            quality: 10,
+            workerScript: 'assets/js/gif.worker.js',
+        });
+        for (let i = 0; i < 30; i++) {
+            await this.sleep(100);
+            const el = this.stage.toCanvas({});
+            const ctx = el.getContext('2d');
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, el.width, el.height);
+            gif.addFrame(el, {delay: 100});
+        }
+        gif.on('finished', (blob) => {
+            const link = document.createElement('a');
+            link.download = 'konva-image.gif';
+            link.href = window.URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+        gif.render();
+    }
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 }
