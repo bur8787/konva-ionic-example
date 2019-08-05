@@ -11,7 +11,11 @@
             <ion-button fill="clear" (click)="stopAnimation()">
                 <ion-icon name="pause"></ion-icon>
             </ion-button>
+            <ion-button fill="clear" color="danger" (click)="resetCanvas()">
+                <ion-icon name="trash"></ion-icon>
+            </ion-button>
         </ion-buttons>
+        <ion-progress-bar type="indeterminate" *ngIf="isProgress"></ion-progress-bar>
     </ion-toolbar>
 </ion-header>
 
@@ -61,15 +65,27 @@
                         <ion-button fill="clear" (click)="decreaseZ()">
                             <fa-icon [icon]="['fa', 'level-down-alt']"></fa-icon>
                         </ion-button>
-                        <ion-button fill="clear" (click)="addAnimation()">
-                            <ion-icon name="videocam"></ion-icon>
-                        </ion-button>
-                        <ion-button fill="clear" (click)="remove()">
+                        <ion-button fill="clear" color="danger" (click)="remove()">
                             <ion-icon name="trash"></ion-icon>
                         </ion-button>
-                        <ion-button fill="clear" (click)="back()">
-                            <ion-icon name="return-left"></ion-icon>
-                        </ion-button>
+                        <div text-center padding>
+                            <ion-text>
+                                アニメーション
+                            </ion-text>
+                        </div>
+                        <ion-item>
+                            <ion-label>回転する</ion-label>
+                            <ion-toggle [(ngModel)]="selectedTarget.attrs.animation"></ion-toggle>
+                            <!--                            <ion-button fill="clear" (click)="addAnimation()">-->
+                            <!--                                <ion-icon name="videocam"></ion-icon>-->
+                            <!--                            </ion-button>-->
+                        </ion-item>
+                        <div>
+                            <ion-button fill="outline" shape="round" (click)="back()">
+                                戻る
+                                <ion-icon name="return-left"></ion-icon>
+                            </ion-button>
+                        </div>
                     </div>
                 </ng-container>
             </div>
@@ -77,44 +93,39 @@
         <ng-container *ngSwitchCase="1">
             <div text-center padding>
                 <ion-text>
+                    端末にダウンロード
+                </ion-text>
+            </div>
+            <div text-center>
+                <ion-button fill="outline" shape="round" (click)="downloadImage()">
+                    画像をダウンロード
+                    <ion-icon name="download"></ion-icon>
+                </ion-button>
+            </div>
+            <div text-center>
+                <ion-button fill="outline" shape="round" (click)="toGif()">
+                    GIFをダウンロード
+                    <ion-icon name="download"></ion-icon>
+                </ion-button>
+            </div>
+            <div text-center padding>
+                <ion-text>
                     JSONで入出力する
                 </ion-text>
             </div>
             <div text-center>
-                <ion-button (click)="drawFromJson()">
-                    入力
-                    <ion-icon name="arrow-up"></ion-icon>
-                </ion-button>
-                <ion-button (click)="toJson()">
+                <ion-button fill="outline" shape="round" (click)="toJson()">
                     出力
                     <ion-icon name="arrow-down"></ion-icon>
+                </ion-button>
+                <ion-button shape="round" (click)="drawFromJson()">
+                    入力
+                    <ion-icon name="arrow-up"></ion-icon>
                 </ion-button>
             </div>
             <ion-textarea [(ngModel)]="inputJson" autoGrow
                           style="border: 1px solid var(--ion-color-medium); border-radius: 5px;">
             </ion-textarea>
-            <div text-center padding>
-                <ion-text>
-                    画像で出力する
-                </ion-text>
-            </div>
-            <div text-center>
-                <ion-button (click)="downloadImage()">
-                    ダウンロード
-                    <ion-icon name="download"></ion-icon>
-                </ion-button>
-            </div>
-            <div text-center padding>
-                <ion-text>
-                    GIFで出力する
-                </ion-text>
-            </div>
-            <div text-center>
-                <ion-button (click)="toGif()">
-                    ダウンロード
-                    <ion-icon name="download"></ion-icon>
-                </ion-button>
-            </div>
         </ng-container>
     </ng-container>
 </ion-content>
